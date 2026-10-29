@@ -1,0 +1,176 @@
+{
+  "skill_name": "yry-tools-github",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Create an issue titled 'Login redirect fails on Safari' in owner/repo.",
+      "expected_output": "Runs get_me, searches for duplicates, then creates the issue.",
+      "files": [],
+      "expectations": [
+        "Runs get_me first to confirm identity",
+        "Searches for duplicate issues before creating",
+        "Creates the issue with the supplied title"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Review PR #42 in owner/repo.",
+      "expected_output": "Runs the 3-step PR review workflow on the pull request.",
+      "files": [],
+      "expectations": [
+        "Follows the 3-step PR review workflow",
+        "Returns review comments",
+        "Uses minimal_output when details aren't needed"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Merge PR #42 after checks pass.",
+      "expected_output": "Merges the PR via the GitHub API.",
+      "files": [],
+      "expectations": [
+        "Verifies checks / status before merge",
+        "Uses the merge tool scoped to the authenticated user",
+        "Surfaces 403/404 if permission denied"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Search the GitHub codebase for references to DEPRECATED_API.",
+      "expected_output": "Runs code search across the org/repo for the query.",
+      "files": [],
+      "expectations": [
+        "Uses the code search tool",
+        "Returns paginated results (5-10 per page recommended)",
+        "Respects minimal_output when details aren't needed"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "List the latest releases of owner/repo.",
+      "expected_output": "Lists releases, including latest and get-by-tag where requested.",
+      "files": [],
+      "expectations": [
+        "Uses the release inspection tools",
+        "Returns release titles/tags",
+        "Paginates appropriately"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Scan this diff for leaked credentials before I commit.",
+      "expected_output": "Runs secret scanning against the diff and flags any credentials/API keys/tokens.",
+      "files": [],
+      "expectations": [
+        "Proactively scans diff/file contents for credentials",
+        "Flags API keys, passwords, tokens",
+        "Blocks or warns before commit"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Get Copilot review on PR #42.",
+      "expected_output": "Requests Copilot review on the PR, with manual fallback if unavailable.",
+      "files": [],
+      "expectations": [
+        "Invokes Copilot review via the API",
+        "Surfaces the error and suggests manual review if unavailable",
+        "Does not bypass GitHub permissions"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Who am I authenticated as on GitHub?",
+      "expected_output": "Runs get_me and returns the authenticated user.",
+      "files": [],
+      "expectations": [
+        "Calls get_me first",
+        "Confirms identity and permissions",
+        "Used as the safety-first prelude to other operations"
+      ]
+    },
+    {
+      "id": 9,
+      "prompt": "I hit a rate limit listing issues — what now?",
+      "expected_output": "Surfaces rate limit info and suggests waiting or reducing perPage.",
+      "files": [],
+      "expectations": [
+        "Detects rate limit hit",
+        "Surfaces rate limit info",
+        "Suggests reducing perPage or waiting"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "Update the README in owner/repo with this new content.",
+      "expected_output": "Fetches the file (gets SHA), then updates via the file CRUD tool.",
+      "files": [],
+      "expectations": [
+        "Calls get_file_contents first to retrieve the SHA",
+        "Errors instructing to fetch SHA first if missing",
+        "Updates the file via the GitHub API, not local filesystem"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "帮我生成一份今天的 GitHub Trending 趋势报告",
+      "expected_output": "Generates a professional GitHub Trending report for today.",
+      "files": [],
+      "expectations": [
+        "Uses web_fetch to retrieve the GitHub Trending page",
+        "Parses structured data (repo name, description, stars, language, forks)",
+        "Performs deep analysis on Top 5 repositories",
+        "Generates report with executive summary, Top 25 ranking, language distribution, trend insights, and actionable recommendations",
+        "Outputs at least 3 trend insights and 3 actionable recommendations"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "这周 Python 有什么热门仓库？看看趋势报告",
+      "expected_output": "Generates a Python-specific weekly trending report.",
+      "files": [],
+      "expectations": [
+        "Fetches https://github.com/trending/python?since=weekly",
+        "Filters repositories by Python language",
+        "Identifies Python-specific trending themes (AI/LLM, web frameworks, data science, etc.)",
+        "Provides deep analysis for Top 5 Python repos"
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "对比一下 Python 和 TypeScript 今天的 Trending，生成对比报告",
+      "expected_output": "Generates a multi-language comparison trending report." ,
+      "files": [],
+      "expectations": [
+        "Fetches both Python and TypeScript trending pages in parallel",
+        "Compares repository counts, average star gains, top themes between the two languages",
+        "Outputs comparison table with per-language Top 5",
+        "Identifies ecosystem differences and trends unique to each language"
+      ]
+    },
+    {
+      "id": 14,
+      "prompt": "给我快速看一下今天的 GitHub Trending，不用太详细",
+      "expected_output": "Generates a lightweight/minimal trending report.",
+      "files": [],
+      "expectations": [
+        "Uses lightweight/quick mode with reduced output",
+        "Outputs Top 10 ranking table without full deep analysis",
+        "Provides quick insights (1-3 hot themes, 1-3 recommended projects)",
+        "Offers to generate full report if user wants more detail"
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "生成 GitHub Trending 月度报告，重点关注 Rust 生态",
+      "expected_output": "Generates a monthly Rust-focused trending report.",
+      "files": [],
+      "expectations": [
+        "Fetches https://github.com/trending/rust?since=monthly",
+        "Identifies Rust ecosystem trends (tooling, WASM, systems, embedded)",
+        "Provides monthly-specific insights (sustained growth vs spike)",
+        "Highlights Rust-specific up-and-coming projects"
+      ]
+    }
+  ]
+}
