@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-skill:
+    name: Validate SKILL.md
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check SKILL.md frontmatter
+        run: |
+          head -1 SKILL.md | grep -q '^---$' || { echo "SKILL.md missing YAML frontmatter"; exit 1; }
+          python3 -c "
+          import re, sys
+          with open('SKILL.md') as f:
+            content = f.read()
+          m = re.match(r'^---\s*\n(.*?)\n---', content, re.DOTALL)
+          if not m:
+            print('Missing frontmatter block'); sys.exit(1)
+          fm = m.group(1)
+          required = ['name', 'title', 'description']
+          for field in required:
+            if field + ':' not in fm:
+              print(f'Missing required field: {field}'); sys.exit(1)
+          print('SKILL.md frontmatter: valid')
+          "
+
+  validate-evals:
+    name: Validate evals
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate evals.json
+        run: |
+          if [ -f evals/evals.json ]; then
+            python3 -c "
+            import json, sys
+            try:
+              with open('evals/evals.json') as f:
+                data = json.load(f)
+              print(f'evals.json: valid JSON ({len(str(data))} bytes)')
+            except json.JSONDecodeError as e:
+              print(f'evals.json: INVALID JSON - {e}'); sys.exit(1)
+            "
+          else
+            echo "No evals/evals.json found — skipping"
+          fi
+
+  lint-markdown:
+    name: Lint markdown
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: '**/*.md'
